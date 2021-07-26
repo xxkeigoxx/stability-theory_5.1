@@ -1,0 +1,446 @@
+
+% ここからだよ！！！！！！！！！！！
+%%%%フォントの埋め込み%%%%
+\AtBeginDvi{\special{pdf:mapfile uptex-ipa.map}}
+%%%%クラス指定%%%%
+\documentclass[a4paper,11pt,uplatex]{jsarticle} %一段組のとき
+%\documentclass[a4paper,11pt,fleqn,twocolumn,uplatex]{jsarticle} %二段組のとき
+%%%%余白の設定%%%%
+\usepackage[truedimen]{geometry}
+\geometry{top=28truemm, bottom=20truemm, left=20truemm, right=20truemm, includefoot}
+%%%%パッケージ%%%
+\usepackage[dvipdfmx]{graphicx,color} %図の挿入
+\usepackage{amsmath, amssymb, bm, mathrsfs}
+\usepackage{cite}
+\usepackage{multicol, multirow} %表中で列を複数化
+\usepackage{caption, subcaption}
+\usepackage{cases} %連立方程式用
+\usepackage{comment, url}
+\usepackage{siunitx, longtable}
+\usepackage{algorithm, algorithmic}
+\usepackage{enumitem}
+%2020年追加
+\usepackage{fancyhdr}
+\usepackage{udline}
+%%%%theorem関連%%%
+\usepackage{amsthm, thmtools}
+\theoremstyle{definition}	% definition style
+\renewcommand{\figurename}{Fig.~}
+
+% オリジナルカスタマイズ
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+
+
+%英語を使いたいときはこっち（日本語のときはコメントアウト）
+%\renewcommand{\thmname}  {Theorem}
+%\newcommand{\defnname}   {Definition}
+%\newcommand{\lemname}   {Lemma}
+%\newcommand{\corname}   {Corollary}
+%\newcommand{\propname}  {Proposition}
+%\newcommand{\remname}{Remark}
+%\newcommand{\exmpname}  {Example}
+%\newcommand{\assumname}   {Assumption}
+%日本語を使いたいときはこっち（英語のときはコメントアウト）
+\renewcommand{\thmname}  {定理}
+\newcommand{\defnname}   {定義}
+\newcommand{\lemname}   {補題}
+\newcommand{\corname}   {系}
+\newcommand{\propname}  {命題}
+\newcommand{\remname}{注意}
+\newcommand{\exmpname}  {例}
+\newcommand{\assumname}   {仮定}
+\newtheorem{thm}    {\thmname}  [section]
+\newtheorem{defn} {\defnname}   [section]
+\newtheorem{lem}      {\lemname}   [section]
+\newtheorem{cor}  {\corname}   [section]
+\newtheorem{prop}{\propname}  [section]
+\newtheorem{rem}     {\remname}[section]
+\newtheorem{exmp}    {\exmpname}  [section]
+\newtheorem{assum} {\assumname}   [section]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% refの定義
+% 式，図，表
+\newcommand{\figref}[1]{Fig. \ref{#1}}
+\newcommand{\Figref}[1]{Figure \ref{#1}}
+\newcommand{\figsref}[2]{Figs. \ref{#1} -- \ref{#2}}
+\newcommand{\Figsref}[2]{Figures \ref{#1} -- \ref{#2}}
+\newcommand{\tabref}[1]{Table \ref{#1}}
+% 定理等
+\newcommand{\thmref}[1]  {\thmname~\ref{#1}}
+\newcommand{\defnref}[1]   {\defnname~\ref{#1}}
+\newcommand{\lemref}[1]   {\lemname~\ref{#1}}
+\newcommand{\cororef}[1]   {\corname~\ref{#1}}
+\newcommand{\propref}[1]  {\propname~\ref{#1}}
+\newcommand{\remref}[1]{\remname~\ref{#1}}
+\newcommand{\exmpref}[1]  {\exmpname~\ref{#1}}
+\newcommand{\assumref}[1]   {\assumname~\ref{#1}}
+% 章，節，項
+\newcommand{\chapref}[1]{第\ref{#1}章}
+\newcommand{\secref}[1]{\ref{#1}節}
+\newcommand{\subsecref}[1]{\ref{#1}項}
+%%%%よく使うコマンドの定義%%%
+\newcommand{\R}{{\mathbb{R}}} %実数
+\newcommand{\T}{\textrm{T}}
+\newcommand{\sk}{\textrm{sk}}
+\newcommand{\diag}{\textrm{diag}}
+\newcommand{\Ad}{\textrm{Ad}}
+\usepackage[dvipdfmx,
+colorlinks=false,
+bookmarks=true,
+bookmarksnumbered=false,
+pdfborder={0 0 0},
+bookmarkstype=toc]{hyperref}
+\usepackage{pxjahyper}
+%%%%ここまでおまじないなので，なれるまで変更しないこと！！！%%%
+\author{森　敬吾}
+\date{\today}
+% \date{2020/6/2}
+\title{5章 入出力安定性の定義}
+\begin{document}
+\maketitle % タイトルを作る
+\tableofcontents %目次を作る（学位論文で使う）
+\pagestyle{fancy}
+\lhead{\today}
+\rhead{右上の名前}
+
+
+
+本章では，ある条件を満たす信号を入力としてシステムに加えた時の出力応答に注目した入出力安定性という概念を説明する．
+\section{入出力関係による表現(5.1.1)}
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\linewidth]{./drawing/fig5.1.pdf}
+\caption{relationship between input and output}
+\label{fig5.1}
+\end{figure}
+本章では，システムを入力から出力へ写像する関数（作用素）として\eqref{mapping function}のように表現する．
+\begin{align}
+\label{mapping function}
+    y = S u
+\end{align}
+ここで，$ u, y $は入力信号，出力信号を表し，時間区間$ [ 0 , \infty )$上で定義された時間関数で，適当な次元のベクトルである．
+作用素Sは，\figref{fig5.1}に示すように、区間$ [ 0 , \infty ) $で加えたさまざまな入力信号を，区間$ [ 0 , \infty )$上の対応する出力信号に移す写像である．
+ある時刻での入力信号をその時刻での出力信号に移す写像ではないことに注意されたい．\footnote{その時刻までの入力に依存する}
+また，作用素$S$は因果的(causal)である．すなはち，おのおのの時刻Tに対して，時刻Tでの出力$y$が時刻Tまでの入力によって定まり，時刻T以後の入力には依存しないものとする．
+因果性は物理的に実現可能なシステムがもつ本質的な性質である．区間$ [ 0, t )$で入力信号$u$を加えた時の時刻$t$での出力信号の値を$y(t) = (Su) (t)$と表す．
+
+% tcolorboxのp.190
+\tcbset{enhanced,colback=red!5!white,
+boxrule=0.4pt,sharp corners,
+colframe=gray!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[title=例5.1,
+drop small lifted shadow=black]
+線形システム
+\begin{align*}
+\dot{x} = Ax + Bu, \qquad y = Cx, \qquad t \leq 0 , \quad x(0) = x_0
+\end{align*}
+を\eqref{mapping function}で表現してみよう．
+\begin{align*}
+y(t) = \int_0^t C \textrm{e}^{A(t-\tau)} B u(\tau) d\tau
+\end{align*}
+を得る．したがって，\eqref{mapping function}の初期状態$x_0 = 0 $での作用素$S$は
+\begin{align}
+\label{eq:exmaple5.1}
+(Su)(t) = \int_0^t C \textrm{e}^{A(t-\tau)} B u(\tau) d\tau
+\end{align}
+によって与えられる．またこれが因果的であるのは明らかである．\\
+いま，$A = -1, B=1, C = 1$として$u(t) = \textrm{sin}t, t \in [0, \infty)$の入力信号を加えてみよう．すると\eqref{eq:exmaple5.1}より，時刻$t$での出力信号$y(t)$は
+\begin{align*}
+y(t) &= (Su) (t) = \int_0^t \textrm{e}^{-(t-\tau)} \textrm{sin}\tau d\tau \\
+     &= \frac{1}{2} (\textrm{sin}t - \textrm{cos}t + \textrm{e}^{-t}), \qquad t \in [0, \infty)
+\end{align*}
+となる．同様に，さまざまな他の入力信号$u$に対しても，対応する出力信号$y$が\eqref{eq:exmaple5.1}の作用素$S$によって定まる．
+\end{tcolorbox}
+
+\eqref{mapping function}によるシステム表現は，例5.1に示すようなシステムに限らず，静的システムや無限次元システムなど，一般には入力と出力が定義でき，因果的であるならばどんなものでもよい．ここでは連続時間システムを扱うが，離散時間システムも同様の考え方で扱うことができる．
+
+\section{$L_p$空間，拡張$L_p$空間，因果性}
+入出力安定性とは，ある集合に属するすべての信号をシステムに加えたとき，対応する出力信号がどのような集合に属するか，ということに注目する概念である．この概念を定義するための準備として，ここでは，$L_p$空間と呼ばれる信号の集合について簡単に述べる．
+\subsection{$L_p$空間と$L_p$ノルム(5.1.2)}
+入出力安定性とは，ある集合に属するすべての信号をシステムに加えたとき，対応する出力信号がどのような集合に属するか，ということに注目する概念である．この概念を定義するための準備として，ここでは$L_p$空間と呼ばれる信号の集合について述べる．
+
+$p$を$ 1 \leq p < \infty$を満たす実数とする．このとき
+\begin{align}
+\label{definition of L_p}
+\int_{0}^\infty \| u(t) \|^p dt < \infty
+\end{align}
+を満たすすべての信号$u$からなる集合を$L_p$（または$L_p$(0, $\infty$)）と定義する．また$ p = \infty $に対して
+\begin{align}
+\label{definition of L_infty}
+\sup_{t \in [0, \infty)} \| u(t) \| < \infty
+\end{align}
+を満たすすべての信号$u$からなる集合を$L_\infty$（または$L_\infty(0,\infty)$）と定義する．ここで，時刻$t$での信号$u(t)$はn次元ベクトルであり，$\| ・ \|$
+は，$l_p$ベクトルノルムならばどれでもよい．\\
+集合$L_p$は，線形ノルム空間であり，$L_p$空間と呼ばれる．実際，実数$a,b$に対して$ u_1 \in L_p , u_2 \in L_p $ならば$au_1 + bu_2 \in L_p $であり，線形空間である．また$L_p$空間上のノルムは
+\begin{align}
+\label{norm of L_p}
+\| u \|_{L_p} \triangleq ( \int^\infty_0 \| u(t) \|^p dt )^{\frac{1}{p}},\qquad  p \in [1, \infty) 
+\end{align}
+
+\begin{align}
+\label{norm of L_infty}
+\| u \|_{L_\infty} \triangleq \sup_{t \in [0, \infty)} \| u(t) \|
+\end{align}
+
+で与えることができる．これを$L_p$ノルムと呼ぶ．こうして，集合$L_p$に属する任意の信号は加法とスカラ倍の演算について閉じており，$L_p$ノルムでもって，その信号の大きさを測ることができる．\\
+空間$L_1,L_2,L_infty$に属する信号の例を以下に示そう．
+\tcbset{enhanced,colback=red!   5!white,
+boxrule=0.4pt,sharp corners,
+colframe=gray!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[title=例5.2,
+drop small lifted shadow=black]
+つぎの信号は，\figref{norm of L_infty}に示す集合にそれぞれ属する．ただし，$t \in [0,\infty)$とする．
+\begin{align*}
+u_1 (t) = \textrm{e}^{-t}, \quad u_2(t) = \frac{1}{1 + t}, \quad u_3(t) = 1
+\end{align*}
+
+\begin{align*}
+u_4 (t) = 
+\begin{cases}
+    \frac{1}{t^{\frac{1}{4}}},  &0 \leq t \leq 1\\
+    \frac{1}{t^2},              &t \geq  
+\end{cases}
+u_5 (t) =
+\begin{cases}
+    \frac{1}{t^{\frac{1}{4}}},  & 0 \leq t \leq 1\\
+    \frac{1}{t},                & t \geq 1
+\end{cases}
+\end{align*}
+\begin{align*}
+u_6(t) =
+\begin{cases}
+    \frac{1}{t^\frac{1}{2}},    & 0 \leq t \leq 1\\
+    \frac{1}{t^2},              & t \geq 1
+\end{cases}
+\end{align*}
+
+
+
+例えば，$u_4 \in L_\infty $は明らかであり，そして
+\begin{align*}
+\int_0^\infty | u_4 (t) | dt = \int_0^1 \frac{1}{t^\frac{1}{4}} dt + \int_1^\infty \frac{1}{t^2} dt = \frac{4}{3} + 1 < \infty
+\end{align*}
+\begin{align*}
+\int_0^\infty | u_4 (t) |^2 dt = \int_0^1 \frac{1}{t^\frac{1}{2}} + \int_1^\infty \frac{1}{t^4} dt = 2 + \frac{1}{3} < \infty
+\end{align*}
+であり，$u_4 \in L_1 \bigcap L_2$である．他も同様に計算できる．\\
+例より，ある$p$で$L_p$空間に属する信号が，別の$p' \neq p $における$L_p'$空間に属するとはかぎらない．すなはち，あるノルムに関して有界な信号であっても，別のノルムでは有界でない場合があることがわかる．
+\end{tcolorbox}
+
+% 図5.2
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.5\linewidth]{./drawing/fig5.2.pdf}
+    \caption{normed space }
+    \label{fig5.2}
+\end{figure}
+
+\tcbset{enhanced,colback=red!5!white,
+boxrule=0.4pt,sharp corners,
+colframe=gray!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[title=補足事項,
+drop small lifted shadow=black]
+\begin{enumerate}
+    \item
+    $ \frac{1}{p} + \frac{1}{q} = 1 $を満たす数$p, q \in [1, \infty]$  $( p = 1 $　のとき $ q = \infty ) $ に対して，同じ次元の信号$u \in L_p$と$v \in L_q $は，$u^T v \in L_1$であり，線形空間である．また
+    \begin{align}
+    \label{inequality of holder}
+    \| u^T v \| _{L_1} \leq \| u \|_{L_p} \| v \|_{L_q}
+    \end{align}
+    が成り立つ．これをヘルダーの不等式と呼ぶ．また$p = q = 2$の場合をシュワルツの不等式と呼ぶ．
+    
+    \item  $u \in L_1 \bigcap L_\infty $ならば，すべての$ p \in [1, \infty]$で$u \in L_p $である．なお$ p = 2 $の場合は，\eqref{inequality of holder}において$u = v$とおくことにより得られる．
+    \item 不連続信号のなかにも$L_p$空間に属するものがある．例えば，絶対値に関して有界な階段関数は$L_\infty$空間に属する．
+    \item $L_1$空間や$L_2$空間に属する信号は，必ずしも$t \to \infty$で$u(t) \to 0$を満たすとはかぎらない．例えば，面積が$\frac{1}{n^2}(n = 1, 2, \cdots)$の三角波の集まり(\figref{fig5.3})は，$\sum_{n = 1}^\infty \frac{1}{n^2} < \infty $であるので，$L_1$空間に属する．ただし，ある$p \in [1, \infty)$で$u \in L_p $であり，かつ$u$が$t$について大域的リプシッツ連続ならば$\lim_{t \to \infty} | u(t) | = 0$である．
+    \item $p \in [1, \infty]$について，$u_1, u_2 \in L_p $に対してが成り立つ．
+            \begin{align}
+            \label{eq5.8}
+            \|
+            \begin{bmatrix}
+                u_1 \\
+                u_2 \\
+            \end{bmatrix}
+            \|_{L_p} \leq \| u_1 \|_{L_p} + \| u_2 \|_{L_p}
+            \end{align}
+            固定された実数$a$が与えられているとき，$[0, a]$上で定義された信号に対して$L_p (0, a)$空間と$L_p(0,a)$ノルムを，上述の$L_p(0,\infty)$空間と同様に定義することができる．例えば\eqref{}で与えられる．
+            \begin{align}
+            \label{eq5.9}
+            \| u \|_{L_p (0,a)} \triangleq ( \int_0^a \| u(t) \|^p dt )^{\frac{1}{p}}
+            \end{align}
+    \end{enumerate}
+\end{tcolorbox}
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\linewidth]{./drawing/fig5.3.pdf}
+\caption{example of L1 function}
+\label{fig5.3}
+\end{figure}
+\section{拡張$L_p$空間}
+$[0, \infty)$上の信号$u$と時刻$T \in [0, \infty) $が与えれているとき，$P_T u $を
+\begin{align}
+\label{truncation operator}
+(P_T u)(t) =
+\begin{cases}
+u(t), & 0 \leq t \leq T \\
+0,    & t>T
+\end{cases}
+\end{align}
+
+と定義する．ここで，$P_T$は信号$u$を時刻$T$以後$0$にする作用素で，打ち切り作用素(truncation operator)と呼ばれる．このとき，すべての時刻$T \in [0,\infty)$で$P_T u \in L_p $となる信号$u$全体の集合，すなはち
+\begin{align}
+\label{augmented L_p space}
+L_{pe} = {u| P_T u \in L_p, \forall T \in [0, \infty )}
+\end{align}
+を定義し，これを拡張$L_p$空間と呼ぶ．ここで，$p \in [1, \infty ) $である．拡張$L_p$空間に属する信号$u$では，おのおのの時刻$T \in [0, \infty )$に対して
+\begin{align}
+\label{eq1:augmented L_p space}
+\| P_T u \|_{L_p (0, \infty)} \leq k(T)
+\end{align}
+を満たす，$T$に依存する正数$k(T)$が存在する．したがって$\lim_{T \to \infty } k(T) < \infty $であるとは限らないので，$T \to \infty $でのノルムの大きさを評価していない．一方，$L_p$空間に属する信号$u$では，任意の時刻$T \in [0, \infty)$に対して
+\begin{align}
+\label{eq2:augmented L_p space}
+\| P_T u \|_{L_p (0, \infty )} \leq k
+\end{align}
+を満たす，$T$に依存しない正定数$k$が存在する．したがって$T \to \infty $でも\eqref{eq2:augmented L_p space}が成り立つ．拡張$L_p$空間は，$L_p$空間を部分空間として含む線形空間であるが，ノルム空間ではない．
+
+\tcbset{enhanced,colback=red!5!white,
+boxrule=0.4pt,sharp corners,
+colframe=gray!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[title=例5.3,
+drop small lifted shadow=black]
+信号$u(t)=t$を考えてみよう．
+\begin{align}
+\label{eq1:example5.3}
+(P_T u )(t) =
+\begin{cases}
+    t, &  0 \leq t \leq T \\
+    0, &  t   >   T
+\end{cases}
+\end{align}
+
+であるので，おのおの与えられた時刻$T \in [0, \infty ) $に対して
+\begin{align}
+\label{eq2:example5.3}
+\sup_{t \in [0, \infty )} | (P_T u (t)) | \leq T
+\end{align}
+であり，$P_T u \in L_\infty$である．したがって$u \in L_{\infty e}$である．しかしながら，明らかに$u \notin L_\infty $である．他の$p \in [1, \infty)$についても同様のことが言える．
+\end{tcolorbox}
+
+
+有限時刻で発散しない任意の信号$u$は，すべての$p \in [1, \infty]$の$L_{pe}$空間に含まれる．実際，おのおの与えられた$T \in [0, \infty)$に対して
+
+\begin{align}
+\label{eq3:augmented L_pe space}
+\sup_{t \in [0, \infty)} \| (P_T u) (t) \| \leq k(T)
+\end{align}
+を満たす正数$k(T)$が存在し，$P_T u \in L_\infty $である．したがって$u \in L_{\infty e} $ である．
+また$p \in [1, \infty)$については
+\begin{align}
+\label{eq4:augmented L_pe space}
+\int^\infty_0 \| (P_T u) (t) \| ^p dt = \int^T_0 \| u(t) \|^p dt \leq Tk(T)^p
+\end{align}
+より$P_T u \in L_p$であり，$u \in L_{pe}$である．これより工学的な観点に立てば，扱うべき信号のほとんどが$L_{pe}$空間に属すると考えてよい．
+
+\subsection{因果性}
+因果性とは，おのおのの時刻$T$に対して，時刻$T$での出力$y$が時刻$T$までの入力によって定まり，時刻$T$以後の入力には依存しない性質であった．この因果性を打ち切り作用素を用いて定義すると，次のようになる．
+
+[定義5.1]
+\eqref{mapping function}で表されるシステム$S: L_{pe} \to L_{pe}$に対して
+\begin{align}
+\label{causality}
+P_T S u = P_T S P_T u, \forall T \in [0, \infty ), \forall u \in L_{pe}
+\end{align}
+を満たすならば，システムは因果的であるという．
+
+$y= S u $は時間空間$[0, \infty)$上の入力信号$u$を$S$に加えた時の出力信号を表し，$\tilde{y} = S P_T u$は時刻$T$以後は零とした入力信号$P_T u $を$S$に加えた時の出力信号を表すので，システムが因果的であるためには$P_T y = P_T \tilde{y}$でなければならない．これは\eqref{causality}を意味する．
+
+\section{$L_p$安定性の定義}
+システム$S: L_{pe} \to L_{pe}$に対して$L_p$安定性という入出力安定性を定義する．
+
+\tcbset{enhanced,colback=red!5!white,
+boxrule=0.4pt,sharp corners,
+colframe=gray!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[title=定義5.2,
+drop small lifted shadow=black]
+$p \in [0, \infty]$とする．このときシステム$S: L_{pe} \to L_{pe} $において，任意の入力信号$u \in L_p $に対する出力信号が$y \in L_p$であり，さらに
+\begin{align}
+\label{L_p stability}
+\| y \|_{L_p} \leq \gamma_p \| u \|_{L_p} , \forall u \in L_p
+\end{align}
+となる正定数$\gamma_p$が存在するならば，システム$S$は$L_p$安定であるという．
+\end{tcolorbox}
+$L_p$安定性は，$L_p$空間に属するどのような入力信号をシステムに加えても，出力信号は$L_p$空間に属し，その大きさは，$L_p$ノルムで測るとき，入力信号を$\gamma_p$倍した値より大きくならないことを意味する．本章では\eqref{L_p stability}を満たす正定数$\gamma_p$の存在性に注目する．例を挙げてみよう．
+
+\tcbset{enhanced,colback=red!5!white,
+boxrule=0.4pt,sharp corners,
+colframe=gray!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[title=例5.5,
+drop small lifted shadow=black]
+つぎの二つの静的なシステムの$L_\infty$安定性を調べてみよう．
+明らかに$S_i : L_{\infty e} \to L_{\infty e } (i= 1,2)$である．入力信号$u \in L_\infty $を任意に選ぶ．このとき
+\begin{align}
+\label{eq1:example 5.5}
+| u(t) | \leq \sup_{\tau \in [0, \infty) } | u(\tau ) | = \| u \|_{L_\infty} < \infty, \forall t \in [0, \infty)
+\end{align}
+に注目すると，システム$S_1$の出力信号$y_1$は
+\begin{align}
+\label{eq2:example 5.5}
+| y_1 (t) | = | u(t) | \leq \| u \|_{L_\infty}, \forall t \in [0, \infty)
+\end{align}
+を満たす．これより$y_1 \in L_\infty $であり，さらに
+\begin{align}
+\label{eq3: example 5.5}
+\| y_1 \|_{L_\infty} = \sup_{t \ in [0, \infty)} | y_1 (t) | = \| u \|_{L_/infty}
+\end{align}
+が成り立つ．したがってシステム$S_1$は$L_\infty$安定であるという．\\
+一方，システム$S_2$の出力信号$y_2$は
+\begin{align}
+\label{eq4: example 5.5}
+| y_2 (t) | = | u(t) |^2 \leq \| u \|^2_{L_\infty}, \forall t \in [0, \infty)
+\end{align}
+を満たす．これより$y_2 \in L_\infty $である．しかし$u$に依存しない定数$\gamma_\infty$は存在しない．したがってシステム$S_2$は$L_\infty$安定ではない．
+\end{tcolorbox}
+
+
+
+$L_p$安定性は，より一般的には
+\begin{align}
+\label{L_p stability in a broad sense}
+\| y \|_{L_p} \leq \gamma \| u \|_{L_p} + \beta_p, \forall u \in L_p
+\end{align}
+
+を満たす非負数$\gamma_p, \beta_p$の存在性によって定義される．例えば，システム$y = \sqrt{| u |}$は\eqref{L_p stability}の意味では$L_\infty$安定ではないが，$|y| \leq \frac{|u|}{2} + \frac{1}{2}$により評価できるので，\eqref{L_p stability in a broad sense}の意味では$L_\infty$安定である．また，状態方程式で表現されたシステムにおいて初期状態が$x(0) \neq 0$のときも\eqref{L_p stability in a broad sense}による$L_p$安定性の定義を用いるとよい．\\
+$L_p$安定性は，時間区間$[0, \infty]$上での入出力信号の関係に関するものである．次の補題は，システムの因果性によって，$L_p$安定ならば，任意の有限な時間区間$[0,T]$においても$L_p$安定に相当する関係が保たれることを示す．
+
+\tcbset{enhanced,colback=red!5!white,
+boxrule=0.4pt,sharp corners,
+colframe=gray!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[title=補題5.1,
+drop small lifted shadow=black]
+システム$S: L_{pe} \to L_{pe}$が$L_p$安定ならば，任意の時刻$T \in [0, \infty )$に対して，\eqref{helping theorem 5.1}が成り立つ．これをヘルダーの不等式と呼ぶ．また
+\begin{align}
+\label{helping theorem 5.1}
+\| y \|_{L_p (0, T)} \leq \gamma_p \| u \|_{L_p (0, T)}, \forall u \in L_{pe}
+\end{align}
+
+(証明) 入力信号$u \in L_{pe}$,および時刻$T \in [0, \infty)$をそれぞれ任意に選ぶ．このとき$P_T u \in L_p$であり，\eqref{L_p stability}より
+\begin{align}
+\label{eq1:helping theorem 5.1}
+\| S P_T u \|_{L_p} \leq \gamma_p \| P_T u \|_{L_p}
+\end{align}
+が成り立つ．一方，システムの因果性より，$P_T S u = P_T S P_T u $なので
+\begin{align}
+\label{eq2: helping theorem 5.1}
+\| S P_T u \|_{L_p} \geq \| P_T S P_T u \|_{L_p} = \| P_T S u \|_{L_p} = \| P_T y \|_{L_p}
+\end{align}
+を得る．したがって\eqref{eq1:helping theorem 5.1},\eqref{eq2: helping theorem 5.1}より\eqref{helping theorem 5.1}を得る．
+\end{tcolorbox}
+
+\bibliographystyle{junsrt}
+\bibliography{reference}
+
+\end{document}
+
