@@ -136,13 +136,10 @@ drop small lifted shadow=black]
 \dot{x} = Ax + Bu, \qquad y = Cx, \qquad t \leq 0 , \quad x(0) = x_0
 \end{align*}
 を\eqref{mapping function}で表現してみよう．
-$x(t) = \mathrm{e}^{A(t-t_0)} x_0 + \int_{t_0}^t \mathrm{e}^{A(t-\tau)} B u(\tau) d\tau$で$X_0 = 0$とすると
 \begin{align*}
 y(t) = \int_0^t C \textrm{e}^{A(t-\tau)} B u(\tau) d\tau
 \end{align*}
-\rem{線形システムの出力応答は，零入力応答と零状態応答に分けてそれぞれ独立に考えればよいので，ここでの入出力応答は$x_0 = 0$とする}
-
-したがって，\eqref{mapping function}の初期状態$x_0 = 0 $での作用素$S$は
+を得る．したがって，\eqref{mapping function}の初期状態$x_0 = 0 $での作用素$S$は
 \begin{align}
 \label{eq:exmaple5.1}
 (Su)(t) = \int_0^t C \textrm{e}^{A(t-\tau)} B u(\tau) d\tau
@@ -158,9 +155,9 @@ y(t) &= (Su) (t) = \int_0^t \textrm{e}^{-(t-\tau)} \textrm{sin}\tau d\tau \\
 
 \eqref{mapping function}によるシステム表現は，例5.1に示すようなシステムに限らず，静的システムや無限次元システムなど，一般には入力と出力が定義でき，因果的であるならばどんなものでもよい．ここでは連続時間システムを扱うが，離散時間システムも同様の考え方で扱うことができる．
 
-\section{$L_p$空間，拡張$L_p$空間，因果性(5.1.2)}
+\section{$L_p$空間，拡張$L_p$空間，因果性}
 入出力安定性とは，ある集合に属するすべての信号をシステムに加えたとき，対応する出力信号がどのような集合に属するか，ということに注目する概念である．この概念を定義するための準備として，ここでは，$L_p$空間と呼ばれる信号の集合について簡単に述べる．
-\subsection{$L_p$空間と$L_p$ノルム}
+\subsection{$L_p$空間と$L_p$ノルム(5.1.2)}
 入出力安定性とは，ある集合に属するすべての信号をシステムに加えたとき，対応する出力信号がどのような集合に属するか，ということに注目する概念である．この概念を定義するための準備として，ここでは$L_p$空間と呼ばれる信号の集合について述べる．
 
 $p$を$ 1 \leq p < \infty$を満たす実数とする．このとき
@@ -187,7 +184,7 @@ $p$を$ 1 \leq p < \infty$を満たす実数とする．このとき
 \end{align}
 
 で与えることができる．これを$L_p$ノルムと呼ぶ．こうして，集合$L_p$に属する任意の信号は加法とスカラ倍の演算について閉じており，$L_p$ノルムでもって，その信号の大きさを測ることができる．\\
-空間$L_1,L_2,L_{\infty}$に属する信号の例を以下に示そう．
+空間$L_1,L_2,L_infty$に属する信号の例を以下に示そう．
 \tcbset{enhanced,colback=red!   5!white,
 boxrule=0.4pt,sharp corners,
 colframe=gray!75!black,fonttitle=\bfseries}
@@ -246,7 +243,7 @@ colframe=gray!75!black,fonttitle=\bfseries}
 drop small lifted shadow=black]
 \begin{enumerate}
     \item
-    $ \frac{1}{p} + \frac{1}{q} = 1 $を満たす数$p, q \in [1, \infty]$  $( p = 1 $ のとき $ q = \infty ) $ に対して，同じ次元の信号$u \in L_p$と$v \in L_q $は，$u^T v \in L_1$であり，線形空間である．また
+    $ \frac{1}{p} + \frac{1}{q} = 1 $を満たす数$p, q \in [1, \infty]$  $( p = 1 $　のとき $ q = \infty ) $ に対して，同じ次元の信号$u \in L_p$と$v \in L_q $は，$u^T v \in L_1$であり，線形空間である．また
     \begin{align}
     \label{inequality of holder}
     \| u^T v \| _{L_1} \leq \| u \|_{L_p} \| v \|_{L_q}
@@ -266,7 +263,7 @@ drop small lifted shadow=black]
             \end{bmatrix}
             \|_{L_p} \leq \| u_1 \|_{L_p} + \| u_2 \|_{L_p}
             \end{align}
-            固定された実数$a$が与えられているとき，$[0, a]$上で定義された信号に対して$L_p (0, a)$空間と$L_p(0,a)$ノルムを，上述の$L_p(0,\infty)$空間と同様に定義することができる．例えば\eqref{eq5.9}で与えられる．
+            固定された実数$a$が与えられているとき，$[0, a]$上で定義された信号に対して$L_p (0, a)$空間と$L_p(0,a)$ノルムを，上述の$L_p(0,\infty)$空間と同様に定義することができる．例えば\eqref{}で与えられる．
             \begin{align}
             \label{eq5.9}
             \| u \|_{L_p (0,a)} \triangleq ( \int_0^a \| u(t) \|^p dt )^{\frac{1}{p}}
@@ -278,7 +275,7 @@ drop small lifted shadow=black]
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.5\linewidth]{./drawing/fig5.3.pdf}
-\caption{example of $L_1$ function}
+\caption{example of L1 function}
 \label{fig5.3}
 \end{figure}
 \section{拡張$L_p$空間}
@@ -295,7 +292,7 @@ u(t), & 0 \leq t \leq T \\
 と定義する．ここで，$P_T$は信号$u$を時刻$T$以後$0$にする作用素で，打ち切り作用素(truncation operator)と呼ばれる．このとき，すべての時刻$T \in [0,\infty)$で$P_T u \in L_p $となる信号$u$全体の集合，すなはち
 \begin{align}
 \label{augmented L_p space}
-L_{pe} = \{u \mid P_T u \in L_p, \quad \forall T \in [0, \infty )\}
+L_{pe} = {u| P_T u \in L_p, \forall T \in [0, \infty )}
 \end{align}
 を定義し，これを拡張$L_p$空間と呼ぶ．ここで，$p \in [1, \infty ) $である．拡張$L_p$空間に属する信号$u$では，おのおのの時刻$T \in [0, \infty )$に対して
 \begin{align}
@@ -343,26 +340,20 @@ drop small lifted shadow=black]
 また$p \in [1, \infty)$については
 \begin{align}
 \label{eq4:augmented L_pe space}
-\int^\infty_0 \| (P_T u) (t) \| ^p dt = \int^T_0 \| u(t) \|^p dt \leq k(T)^p
+\int^\infty_0 \| (P_T u) (t) \| ^p dt = \int^T_0 \| u(t) \|^p dt \leq Tk(T)^p
 \end{align}
 より$P_T u \in L_p$であり，$u \in L_{pe}$である．これより工学的な観点に立てば，扱うべき信号のほとんどが$L_{pe}$空間に属すると考えてよい．
 
 \subsection{因果性}
 因果性とは，おのおのの時刻$T$に対して，時刻$T$での出力$y$が時刻$T$までの入力によって定まり，時刻$T$以後の入力には依存しない性質であった．この因果性を打ち切り作用素を用いて定義すると，次のようになる．
 
-\tcbset{enhanced,colback=red!5!white,
-boxrule=0.4pt,sharp corners,
-colframe=gray!75!black,fonttitle=\bfseries}
-\begin{tcolorbox}[title=定義5.1,
-drop small lifted shadow=black]
+[定義5.1]
 \eqref{mapping function}で表されるシステム$S: L_{pe} \to L_{pe}$に対して
 \begin{align}
 \label{causality}
-P_T S u = P_T S P_T u, \qquad \forall T \in [0, \infty ), \forall u \in L_{pe}
+P_T S u = P_T S P_T u, \forall T \in [0, \infty ), \forall u \in L_{pe}
 \end{align}
 を満たすならば，システムは因果的であるという．
-\end{tcolorbox}
-
 
 $y= S u $は時間空間$[0, \infty)$上の入力信号$u$を$S$に加えた時の出力信号を表し，$\tilde{y} = S P_T u$は時刻$T$以後は零とした入力信号$P_T u $を$S$に加えた時の出力信号を表すので，システムが因果的であるためには$P_T y = P_T \tilde{y}$でなければならない．これは\eqref{causality}を意味する．
 
@@ -389,10 +380,6 @@ colframe=gray!75!black,fonttitle=\bfseries}
 \begin{tcolorbox}[title=例5.5,
 drop small lifted shadow=black]
 つぎの二つの静的なシステムの$L_\infty$安定性を調べてみよう．
-\begin{align*}
-y_1 &= S_1 u = u \\
-y_2 &= S_2 u =u^2
-\end{align*}
 明らかに$S_i : L_{\infty e} \to L_{\infty e } (i= 1,2)$である．入力信号$u \in L_\infty $を任意に選ぶ．このとき
 \begin{align}
 \label{eq1:example 5.5}
@@ -406,7 +393,7 @@ y_2 &= S_2 u =u^2
 を満たす．これより$y_1 \in L_\infty $であり，さらに
 \begin{align}
 \label{eq3: example 5.5}
-\| y_1 \|_{L_\infty} = \sup_{t \in [0, \infty)} | y_1 (t) | = \| u \|_{L_\infty}
+\| y_1 \|_{L_\infty} = \sup_{t \ in [0, \infty)} | y_1 (t) | = \| u \|_{L_/infty}
 \end{align}
 が成り立つ．したがってシステム$S_1$は$L_\infty$安定であるという．\\
 一方，システム$S_2$の出力信号$y_2$は
@@ -433,7 +420,7 @@ boxrule=0.4pt,sharp corners,
 colframe=gray!75!black,fonttitle=\bfseries}
 \begin{tcolorbox}[title=補題5.1,
 drop small lifted shadow=black]
-システム$S: L_{pe} \to L_{pe}$が$L_p$安定ならば，任意の時刻$T \in [0, \infty )$に対して，\eqref{helping theorem 5.1}が成り立つ．
+システム$S: L_{pe} \to L_{pe}$が$L_p$安定ならば，任意の時刻$T \in [0, \infty )$に対して，\eqref{helping theorem 5.1}が成り立つ．これをヘルダーの不等式と呼ぶ．また
 \begin{align}
 \label{helping theorem 5.1}
 \| y \|_{L_p (0, T)} \leq \gamma_p \| u \|_{L_p (0, T)}, \forall u \in L_{pe}
@@ -454,6 +441,5 @@ drop small lifted shadow=black]
 
 \bibliographystyle{junsrt}
 \bibliography{reference}
-
 \end{document}
 
